@@ -18,7 +18,7 @@ homeassistant_api: true
 hassio_api: true
 
 options:
-  entity_id: "media_player.wo_shi_er_nao_zhong_esp32_speaker"
+  entity_id: ""
   airplay_name: "ESPHome AirPlay"
   audio_port: 7000
   log_level: info
