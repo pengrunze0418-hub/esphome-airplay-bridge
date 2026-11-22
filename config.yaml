@@ -1,6 +1,6 @@
 
 name: ESPHome AirPlay Bridge
-version: "0.1.0"
+version: "2026.11.0"
 slug: esphome_airplay
 description: AirPlay receiver bridge for ESPHome media players
 url: https://github.com/pengrunze0418-hub/esphome-airplay-bridge
@@ -17,7 +17,7 @@ host_network: true
 homeassistant_api: true
 
 options:
-  entity_id: ""
+  entity_id: "media_player.wo_shi_er_nao_zhong_esp32_speaker"
   airplay_name: "ESPHome AirPlay"
   audio_port: 7000
   log_level: info
