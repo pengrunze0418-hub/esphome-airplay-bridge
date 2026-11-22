@@ -29,29 +29,39 @@ def load_config():
 
 
 def verify_entity(entity_id):
-    token = os.environ.get("SUPERVISOR_TOKEN", "")
+    config = load_config()
+    token = config.get("ha_token", "").strip()
+
     if not token:
-        raise RuntimeError("SUPERVISOR_TOKEN missing")
+        raise RuntimeError(
+            "HA Long-Lived Access Token is missing"
+        )
 
     if not entity_id.startswith("media_player."):
-        raise ValueError("entity_id must start with media_player.")
+        raise ValueError(
+            "entity_id must start with media_player."
+        )
 
     response = requests.get(
         f"{HA_API}/states/{entity_id}",
-        headers={"Authorization": f"Bearer {token}"},
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
         timeout=10,
     )
+
     response.raise_for_status()
 
     entity = response.json()
     name = entity.get("attributes", {}).get(
         "friendly_name", entity_id
     )
+
     log(f"Home Assistant player found: {name}")
 
 
 def create_shairport_config(name):
-    # Escape characters that could break libconfig syntax.
     safe_name = name.replace("\\", "\\\\").replace('"', '\\"')
 
     config = f'''
@@ -73,6 +83,7 @@ sessioncontrol = {{
 '''
 
     path = "/tmp/shairport-sync.conf"
+
     with open(path, "w", encoding="utf-8") as file:
         file.write(config)
 
@@ -81,11 +92,13 @@ sessioncontrol = {{
 
 def start_process(command, name):
     log(f"Starting {name}...")
+
     process = subprocess.Popen(
         command,
         stdout=sys.stdout,
         stderr=sys.stderr,
     )
+
     processes.append((name, process))
     return process
 
@@ -103,8 +116,11 @@ def main():
     signal.signal(signal.SIGINT, shutdown)
 
     config = load_config()
+
     entity_id = config.get("entity_id", "").strip()
-    airplay_name = config.get("airplay_name", "ESPHome AirPlay")
+    airplay_name = config.get(
+        "airplay_name", "ESPHome AirPlay"
+    )
     audio_port = int(config.get("audio_port", 7000))
 
     if not entity_id:
@@ -115,20 +131,23 @@ def main():
     if not os.path.exists(PIPE_PATH):
         os.mkfifo(PIPE_PATH)
 
-    # Start HTTP audio streaming server.
     env = os.environ.copy()
     env["AUDIO_PORT"] = str(audio_port)
 
     log("Starting HTTP audio server...")
+
     audio_process = subprocess.Popen(
         [sys.executable, "/app/audio_server.py"],
         env=env,
         stdout=sys.stdout,
         stderr=sys.stderr,
     )
+
     processes.append(("Audio Server", audio_process))
 
-    config_path = create_shairport_config(airplay_name)
+    config_path = create_shairport_config(
+        airplay_name
+    )
 
     start_process(
         ["shairport-sync", "-c", config_path],
@@ -145,11 +164,15 @@ def main():
             for name, process in processes:
                 if process.poll() is not None:
                     raise RuntimeError(
-                        f"{name} exited with code {process.returncode}"
+                        f"{name} exited with code "
+                        f"{process.returncode}"
                     )
+
             time.sleep(1)
+
     finally:
         log("Stopping services...")
+
         for name, process in reversed(processes):
             if process.poll() is None:
                 process.terminate()
