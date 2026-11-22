@@ -20,4 +20,6 @@ COPY run.sh /app/run.sh
 RUN chmod +x /app/run.sh \
     && mkdir -p /run/dbus
 
-CMD ["/app/run.sh"]
+RUN mkdir -p /etc/services.d/airplay \
+    && printf '#!/bin/sh\nexec /app/run.sh\n' > /etc/services.d/airplay/run \
+    && chmod +x /etc/services.d/airplay/run
