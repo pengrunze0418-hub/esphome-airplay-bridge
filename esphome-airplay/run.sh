@@ -3,16 +3,38 @@
 set -e
 
 echo "================================"
-echo " ESPHome AirPlay Bridge v0.1.0"
+echo " ESPHome AirPlay Bridge"
 echo "================================"
+
+echo "[DEBUG] Checking HA API credentials..."
+
+if [ -n "${SUPERVISOR_TOKEN:-}" ]; then
+    echo "[DEBUG] SUPERVISOR_TOKEN: available"
+else
+    echo "[DEBUG] SUPERVISOR_TOKEN: missing"
+fi
+
+if [ -n "${HASSIO_TOKEN:-}" ]; then
+    echo "[DEBUG] HASSIO_TOKEN: available"
+else
+    echo "[DEBUG] HASSIO_TOKEN: missing"
+fi
+
+echo "[1/3] Starting D-Bus..."
 
 mkdir -p /run/dbus
 
-echo "[1/3] Starting D-Bus..."
-dbus-daemon --system --fork
+if [ ! -S /run/dbus/system_bus_socket ]; then
+    rm -f /run/dbus/dbus.pid
+    dbus-daemon --system --fork
+fi
 
 echo "[2/3] Starting Avahi..."
-avahi-daemon --daemonize --no-chroot
+
+if ! pidof avahi-daemon >/dev/null 2>&1; then
+    avahi-daemon --daemonize --no-chroot
+fi
 
 echo "[3/3] Starting AirPlay Bridge..."
+
 exec python3 /app/bridge.py
