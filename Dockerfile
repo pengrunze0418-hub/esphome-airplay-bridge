@@ -1,0 +1,18 @@
+
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.22
+FROM ${BUILD_FROM}
+
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
+RUN apk add --no-cache \
+    python3 \
+    py3-requests \
+    ffmpeg \
+    shairport-sync \
+    avahi \
+    dbus
+
+COPY rootfs/ /
+
+RUN chmod +x /etc/services.d/airplay/run
+
