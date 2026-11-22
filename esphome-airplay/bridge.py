@@ -11,7 +11,7 @@ import time
 
 import requests
 
-HA_API = "http://supervisor/core/api"
+HA_API = "http://homeassistant:8123/api"
 CONFIG_PATH = "/data/options.json"
 PIPE_PATH = "/tmp/airplay_audio.pipe"
 
