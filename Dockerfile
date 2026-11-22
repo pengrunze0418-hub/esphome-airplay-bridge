@@ -12,7 +12,12 @@ RUN apk add --no-cache \
     avahi \
     dbus
 
-COPY rootfs/ /
+WORKDIR /app
 
-RUN chmod +x /etc/services.d/airplay/run
+COPY bridge.py audio_server.py play_handler.py /app/
+COPY run.sh /app/run.sh
 
+RUN chmod +x /app/run.sh \
+    && mkdir -p /run/dbus
+
+CMD ["/app/run.sh"]
