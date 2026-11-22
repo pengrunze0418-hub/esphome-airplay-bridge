@@ -22,9 +22,11 @@ options:
   airplay_name: "ESPHome AirPlay"
   audio_port: 7000
   log_level: info
+    ha_token: ""
 
 schema:
   entity_id: str
   airplay_name: str
   audio_port: port
   log_level: list(debug|info|warning|error)
+    ha_token: password
