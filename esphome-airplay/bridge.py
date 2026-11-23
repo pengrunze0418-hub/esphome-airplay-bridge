@@ -150,7 +150,7 @@ def main():
     )
 
     start_process(
-        ["shairport-sync", "-c", config_path],
+        ["shairport-sync", "-vvv", "-c", config_path],
         "Shairport-Sync",
     )
 
