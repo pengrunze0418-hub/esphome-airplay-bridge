@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     ffmpeg \
     shairport-sync \
     avahi \
-    dbus
+    dbus \
     avahi-tools iproute2
 
 WORKDIR /app
