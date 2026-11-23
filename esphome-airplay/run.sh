@@ -19,8 +19,6 @@ mkdir -p /etc/avahi
 
 cat > /etc/avahi/avahi-daemon.conf <<'EOF'
 [server]
-cat > /etc/avahi/avahi-daemon.conf <<'EOF'
-[server]
 host-name=esphome-airplay-bridge
 domain-name=local
 allow-interfaces=enp3s0
@@ -42,7 +40,7 @@ enable-reflector=no
 EOF
 
 echo "[2/4] Starting Avahi..."
-avahi-daemon --no-chroot --debug
+avahi-daemon --no-chroot --debug &
 
 echo "[3/4] Checking mDNS environment..."
 
