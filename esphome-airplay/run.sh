@@ -47,7 +47,7 @@ echo "---- Network interfaces ----"
 ip -4 addr show 2>&1 || true
 
 echo "---- Avahi status ----"
-avahi-browse -art 2>&1 || true
+timeout 3 avahi-browse -art 2>&1 || true
 
 echo "---- UDP 5353 listeners ----"
 ss -ulpn 2>&1 | grep 5353 || true
