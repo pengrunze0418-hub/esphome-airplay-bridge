@@ -1,6 +1,6 @@
 
 name: ESPHome AirPlay Bridge
-version: "2026.11.6"
+version: "2026.11.7"
 slug: esphome_airplay
 description: AirPlay receiver bridge for ESPHome media players
 url: https://github.com/pengrunze0418-hub/esphome-airplay-bridge
