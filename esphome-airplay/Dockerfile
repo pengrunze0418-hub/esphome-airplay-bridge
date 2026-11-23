@@ -11,6 +11,7 @@ RUN apk add --no-cache \
     shairport-sync \
     avahi \
     dbus
+    avahi-tools iproute2
 
 WORKDIR /app
 
