@@ -39,7 +39,7 @@ enable-reflector=no
 EOF
 
 echo "[2/4] Starting Avahi..."
-avahi-daemon --daemonize --no-chroot
+avahi-daemon --no-chroot --debug
 
 echo "[3/4] Checking mDNS environment..."
 
