@@ -29,11 +29,7 @@ if [ ! -S /run/dbus/system_bus_socket ]; then
     dbus-daemon --system --fork
 fi
 
-echo "[2/3] Starting Avahi..."
-
-if ! pidof avahi-daemon >/dev/null 2>&1; then
-    avahi-daemon --daemonize --no-chroot
-fi
+echo "[2/3] Skipping Avahi for testing..."
 
 echo "[3/3] Starting AirPlay Bridge..."
 
