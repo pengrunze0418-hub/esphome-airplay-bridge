@@ -6,8 +6,7 @@ echo "================================"
 echo " ESPHome AirPlay Bridge"
 echo "================================"
 
-echo "[1/3] Starting D-Bus..."
-
+echo "[1/4] Starting D-Bus..."
 mkdir -p /run/dbus
 
 if [ ! -S /run/dbus/system_bus_socket ]; then
@@ -15,8 +14,7 @@ if [ ! -S /run/dbus/system_bus_socket ]; then
     dbus-daemon --system --fork
 fi
 
-echo "[2/3] Configuring Avahi..."
-
+echo "[2/4] Configuring Avahi..."
 mkdir -p /etc/avahi
 
 cat > /etc/avahi/avahi-daemon.conf <<'EOF'
@@ -25,8 +23,6 @@ host-name=esphome-airplay-bridge
 domain-name=local
 use-ipv4=yes
 use-ipv6=no
-allow-interfaces=
-deny-interfaces=
 ratelimit-interval-usec=1000000
 ratelimit-burst=1000
 
@@ -42,10 +38,19 @@ enable-reflector=no
 [rlimits]
 EOF
 
-echo "[2/3] Starting Avahi..."
-
+echo "[2/4] Starting Avahi..."
 avahi-daemon --daemonize --no-chroot
 
-echo "[3/3] Starting AirPlay Bridge..."
+echo "[3/4] Checking mDNS environment..."
 
+echo "---- Network interfaces ----"
+ip -4 addr show 2>&1 || true
+
+echo "---- Avahi status ----"
+avahi-browse -art 2>&1 || true
+
+echo "---- UDP 5353 listeners ----"
+ss -ulpn 2>&1 | grep 5353 || true
+
+echo "[4/4] Starting AirPlay Bridge..."
 exec python3 /app/bridge.py
