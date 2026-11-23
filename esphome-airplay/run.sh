@@ -19,8 +19,11 @@ mkdir -p /etc/avahi
 
 cat > /etc/avahi/avahi-daemon.conf <<'EOF'
 [server]
+cat > /etc/avahi/avahi-daemon.conf <<'EOF'
+[server]
 host-name=esphome-airplay-bridge
 domain-name=local
+allow-interfaces=enp3s0
 use-ipv4=yes
 use-ipv6=no
 ratelimit-interval-usec=1000000
