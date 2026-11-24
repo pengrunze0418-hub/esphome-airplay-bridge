@@ -30,3 +30,9 @@ schema:
   audio_port: port
   log_level: list(debug|info|warning|error)
   ha_token: password
+
+options:
+  network_interface: enp3s0
+
+schema:
+  network_interface: str
