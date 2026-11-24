@@ -22,7 +22,7 @@ It works with any device that:
 
 This means you can use a wide range of ESPHome-based audio devices as AirPlay speakers, including:
 
-- ESPHome Assist Satellites.
+- Assist Satellite Add-On. 
 - Custom-built ESP32 speakers.
 - DIY audio devices using I2S DACs or amplifiers.
 - Other ESPHome devices with compatible `media_player` implementations.
