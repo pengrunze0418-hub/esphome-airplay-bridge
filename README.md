@@ -10,11 +10,32 @@ Your device must expose a `media_player` entity that supports audio playback and
 
 No AirPlay-specific firmware is required.
 
-Compatible devices include:
-- Custom-built ESPHome speakers.
-- Ready-made speakers running ESPHome.
-- Other ESPHome devices with compatible audio playback capabilities.
+# Compatible ESPHome Media Players
 
+ESPHome AirPlay Bridge does not require AirPlay-specific firmware on the target speaker.
+
+It works with any device that:
+
+- Runs ESPHome.
+- Connects to Home Assistant through the ESPHome Native API.
+- Exposes a `media_player` entity capable of audio playback.
+
+This means you can use a wide range of ESPHome-based audio devices as AirPlay speakers, including:
+
+- ESPHome Assist Satellites.
+- Custom-built ESP32 speakers.
+- DIY audio devices using I2S DACs or amplifiers.
+- Other ESPHome devices with compatible `media_player` implementations.
+
+**How it works**
+
+AirPlay audio is received by Shairport-Sync and forwarded through Home Assistant to the selected ESPHome `media_player` entity.
+
+The target device does not need to implement AirPlay, Shairport-Sync, or any AirPlay-specific protocol.
+
+Simply select the target `media_player` entity in the add-on configuration.
+
+**Note:** Compatibility depends on the target media player's audio playback capabilities and its integration with Home Assistant. Not every ESPHome `media_player` implementation necessarily supports every audio format or playback operation.
 ### Step 2 — Create a Long-Lived Access Token
 
 AirPlay Bridge uses a Home Assistant Long-Lived Access Token to communicate with Home Assistant.
