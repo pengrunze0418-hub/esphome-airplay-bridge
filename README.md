@@ -118,3 +118,31 @@ Your audio should now be forwarded to your ESPHome speaker through Home Assistan
 - A valid Long-Lived Access Token is required.
 - The ESPHome speaker must support audio playback through its Home Assistant `media_player` entity.
 - Some startup audio latency is expected due to the audio forwarding pipeline.
+
+### Avahi / mDNS Name Collision
+
+If you are running ESPHome AirPlay Bridge alongside other Home Assistant add-ons that provide mDNS/Bonjour services (such as SimpleNAS), you may encounter Avahi name collisions.
+
+Symptoms may include:
+- `AVAHI_CLIENT_S_COLLISION`
+- `Host name conflict, retrying with ...`
+- AirPlay receivers repeatedly changing their advertised names.
+- `Received packet from invalid interface.`
+
+**Cause**
+
+Some add-ons run their own Avahi/Bonjour services on the same host network. This can cause conflicting mDNS records and interfere with AirPlay service discovery.
+
+**Solution**
+
+If you use SimpleNAS:
+
+1. Open the SimpleNAS add-on configuration.
+2. Find `mDNS/Bonjour (Avahi)`.
+3. Disable this option.
+4. Keep SMB file sharing enabled.
+5. Restart SimpleNAS and ESPHome AirPlay Bridge if necessary.
+
+Disabling Avahi/Bonjour in SimpleNAS does not disable SMB file sharing. You can continue accessing shared folders using SMB.
+
+**Important:** Keep Avahi enabled in ESPHome AirPlay Bridge, as it is required for AirPlay receiver discovery.
