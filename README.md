@@ -10,7 +10,7 @@ Your device must expose a `media_player` entity that supports audio playback and
 
 No AirPlay-specific firmware is required.
 
-# Compatible ESPHome Media Players
+#### Compatible ESPHome Media Players
 
 ESPHome AirPlay Bridge does not require AirPlay-specific firmware on the target speaker.
 
