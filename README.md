@@ -38,7 +38,7 @@ The token must be created manually.
 3. Open the App Store.
 4. Click the three-dot menu in the upper-right corner.
 5. Select **Repositories**.
-6. Add the AirPlay Bridge GitHub repository URL.
+6. Add the AirPlay Bridge GitHub repository URL. 'https://github.com/pengrunze0418-hub/esphome-airplay-bridge'
 7. Click **Add**.
 
 ### Step 4 — Install AirPlay Bridge
